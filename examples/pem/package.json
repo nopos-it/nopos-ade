@@ -1,0 +1,17 @@
+{
+  "name": "pem-example",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node --watch src/index.ts"
+  },
+  "dependencies": {
+    "@nopos-ade/pem": "file:../../packages/pem",
+    "@nopos-ade/common": "file:../../packages/common"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

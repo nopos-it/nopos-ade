@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  # PEL Server (Elaboration Point)
+  pel-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nopos-pel-server
+    ports:
+      - '3000:3000' # PEL Server
+      - '3001:3001' # Audit Server
+    volumes:
+      - ./data:/app/data
+      - ./certs:/app/certs:ro # For SSL certificates
+    environment:
+      - NODE_ENV=production
+      - ADE_BASE_URL=https://test.agenziaentrate.gov.it/api
+      - ADE_AUTH_TOKEN=${ADE_AUTH_TOKEN}
+      - DATABASE_PATH=/app/data/pel.db
+      - STORAGE_PATH=/app/data/storage
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3000/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - nopos-network
+
+  # Optional: PostgreSQL (if using instead of SQLite)
+  postgres:
+    image: postgres:16-alpine
+    container_name: nopos-postgres
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=nopos_ade
+      - POSTGRES_USER=nopos
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - nopos-network
+    profiles:
+      - postgres
+
+  # Optional: MinIO (S3-compatible storage)
+  minio:
+    image: minio/minio:latest
+    container_name: nopos-minio
+    ports:
+      - '9000:9000' # API
+      - '9001:9001' # Console
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-admin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-changeme123}
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - nopos-network
+    profiles:
+      - s3
+
+volumes:
+  postgres-data:
+    driver: local
+  minio-data:
+    driver: local
+
+networks:
+  nopos-network:
+    driver: bridge
+

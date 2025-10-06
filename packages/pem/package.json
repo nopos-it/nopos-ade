@@ -1,0 +1,61 @@
+{
+  "name": "@nopos-ade/pem",
+  "version": "0.1.0",
+  "description": "Punto di Emissione (Emission Point) - Device library for fiscal receipts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write \"src/**/*.{ts,js,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json}\"",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "italy",
+    "fiscal",
+    "ade",
+    "pem",
+    "device",
+    "pos"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@nopos-ade/common": "file:../common"
+  },
+  "peerDependencies": {
+    "@types/node": "^20.0.0",
+    "jspdf": "^2.5.0",
+    "bwip-js": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "jspdf": {
+      "optional": true
+    },
+    "bwip-js": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.4",
+    "typescript": "^5.9.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/__tests__"
+    ],
+    "testMatch": [
+      "**/*.test.ts"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts"
+    ]
+  }
+}

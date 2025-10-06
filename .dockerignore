@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Build artifacts
+dist/
+*.tsbuildinfo
+
+# Tests
+coverage/
+*.test.ts
+**/__tests__/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+.gitignore
+.github/
+
+# CI/CD
+.husky/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Certificates (mount as volumes)
+*.pem
+*.p12
+*.pfx
+*.key
+*.crt
+*.cer
+
+# Data directories
+data/
+tmp/
+temp/
+
+# Examples (we copy only what we need)
+examples/pem/
+

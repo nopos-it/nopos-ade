@@ -1,0 +1,51 @@
+{
+  "name": "nopos-ade",
+  "version": "0.1.0",
+  "description": "TypeScript libraries for Italian Agenzia delle Entrate electronic fiscal receipts",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm install --prefix examples/pem && npm install --prefix examples/pel",
+    "install:examples": "npm install --prefix examples/pem && npm install --prefix examples/pel",
+    "build:common": "cd packages/common && npm run build",
+    "build:pem": "cd packages/pem && npm run build",
+    "build:pel": "cd packages/pel && npm run build",
+    "build": "npm run build:common && npm run build:pem && npm run build:pel",
+    "clean": "rm -rf packages/*/dist",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,js,json,md}\" \"examples/**/*.{ts,tsx,js,json,md}\" \"*.{md,json}\"",
+    "format:check": "prettier --check \"packages/**/*.{ts,tsx,js,json,md}\" \"examples/**/*.{ts,tsx,js,json,md}\" \"*.{md,json}\"",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:watch": "npm run test:watch --workspaces --if-present",
+    "test:coverage": "npm run test:coverage --workspaces --if-present",
+    "start:pem": "npm run build && cd examples/pem && npm start",
+    "start:pel": "npm run build && cd examples/pel && npm start",
+    "dev:pem": "npm run build && cd examples/pem && npm run dev",
+    "dev:pel": "npm run build && cd examples/pel && npm run dev"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{js,json,md}": [
+      "prettier --write"
+    ]
+  },
+  "keywords": [
+    "italy",
+    "fiscal",
+    "receipts",
+    "ade"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.3",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
+  }
+}

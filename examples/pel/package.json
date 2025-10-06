@@ -1,0 +1,19 @@
+{
+  "name": "pel-example",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node --watch src/index.ts"
+  },
+  "dependencies": {
+    "@nopos-ade/pel": "file:../../packages/pel",
+    "@nopos-ade/common": "file:../../packages/common",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@types/sqlite3": "^5.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
