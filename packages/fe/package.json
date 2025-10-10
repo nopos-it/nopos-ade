@@ -1,0 +1,54 @@
+{
+  "name": "@nopos-ade/fe",
+  "version": "0.1.0",
+  "description": "Fatturazione Elettronica - Electronic Invoicing for Sistema di Interscambio (SDI)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write \"src/**/*.{ts,js,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json}\"",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "italy",
+    "fiscal",
+    "ade",
+    "fattura",
+    "invoice",
+    "sdi",
+    "fatturapa"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@nopos-ade/common": "file:../common",
+    "ssh2": "^1.17.0"
+  },
+  "peerDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/ssh2": "^1.15.5",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/__tests__"
+    ],
+    "testMatch": [
+      "**/*.test.ts"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts"
+    ]
+  }
+}

@@ -11,6 +11,7 @@ export * from './types/corrispettivi';
 export * from './types/dc';
 export * from './types/journal';
 export * from './types/lottery';
+export * from './types/fe';
 
 // Export XML builders
 export * from './builders/xml.builder';

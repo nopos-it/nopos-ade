@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![Docker](https://img.shields.io/badge/Docker-ready-blue.svg)](https://hub.docker.com/)
 
-TypeScript library for Italian Agenzia delle Entrate electronic receipts (SSW v1.1).
+TypeScript library for Italian Agenzia delle Entrate electronic fiscal documents (SSW v1.1, FatturaPA v1.9).
 
 ## 🚧 Status
 
@@ -17,6 +17,7 @@ TypeScript library for Italian Agenzia delle Entrate electronic receipts (SSW v1
 - **@nopos-ade/common** - Shared types, validators, XML builders
 - **@nopos-ade/pem** - Point of Emission (device/POS library)
 - **@nopos-ade/pel** - Elaboration Point (server library)
+- **@nopos-ade/fe** - Fatturazione Elettronica (Electronic Invoicing for SDI)
 
 ## 🚀 Quick Start
 
@@ -69,7 +70,53 @@ await pelServer.start();
 await auditServer.start();
 ```
 
+### FE (Fatturazione Elettronica)
+
+```typescript
+import { InvoiceBuilder, buildInvoiceXML, SDIClient } from '@nopos-ade/fe';
+
+const builder = new InvoiceBuilder({
+  supplierVatNumber: '12345678901',
+  supplierBusinessName: 'My Company S.r.l.',
+  supplierAddress: {
+    indirizzo: 'Via Roma 123',
+    cap: '00100',
+    comune: 'Roma',
+    provincia: 'RM',
+    nazione: 'IT',
+  },
+  taxRegime: 'RF01',
+});
+
+const invoice = builder.build({
+  customer: {
+    vatNumber: '98765432109',
+    businessName: 'Client S.r.l.',
+    address: { indirizzo: 'Via Milano 1', cap: '20100', comune: 'Milano', nazione: 'IT' },
+    sdiCode: '0000000',
+    pec: 'client@pec.it',
+  },
+  invoiceNumber: '2024/001',
+  invoiceDate: '2024-01-15',
+  lines: [{ description: 'Service', quantity: 1, unitPrice: 1000.0, vatRate: 22 }],
+  paymentMethod: 'MP05',
+});
+
+const xml = buildInvoiceXML(invoice);
+
+// Transmit to SDI
+const sdiClient = new SDIClient({
+  endpoint: 'https://testservizi.fatturapa.it/services/ricezioneFatture',
+  certPath: './certs/client.crt',
+  keyPath: './certs/client.key',
+});
+
+const result = await sdiClient.sendInvoice(builder.generateFilename(), xml, 'SDICOOP');
+```
+
 ## ✨ Features
+
+### Electronic Receipts (PEM/PEL)
 
 - ✅ Commercial document emission with PDF + Data Matrix barcode
 - ✅ Hash-chained journal for immutability
@@ -82,6 +129,16 @@ await auditServer.start();
 - ✅ Metadata generation for archives
 - ✅ Instant/deferred lottery codes
 - ✅ Digital conservation interface (abstract)
+
+### Electronic Invoicing (FE)
+
+- ✅ FatturaPA XML generation (FPR12/FPA12 formats)
+- ✅ Invoice builder with automatic VAT calculation
+- ✅ SDI transmission via SDICOOP/SDIFTP
+- ✅ Receipt handler (RC, NS, MC, NE, MT, DT)
+- ✅ Support for B2B and B2C invoices
+- ✅ Multiple document types (TD01-TD28)
+- ✅ Compliant with FatturaPA v1.9 specifications
 
 ## 📚 Documentation
 
@@ -140,6 +197,7 @@ npm run build
 npm run build:common
 npm run build:pem
 npm run build:pel
+npm run build:fe
 
 # Clean build artifacts
 npm run clean
@@ -167,9 +225,13 @@ npm run start:pem
 # Start PEL example (Server with all features)
 npm run start:pel
 
+# Start FE example (Electronic Invoicing)
+npm run start:fe
+
 # Development mode with auto-reload
 npm run dev:pem
 npm run dev:pel
+npm run dev:fe
 ```
 
 ## 🎨 Code Quality

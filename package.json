@@ -7,12 +7,13 @@
     "packages/*"
   ],
   "scripts": {
-    "install:all": "npm install && npm install --prefix examples/pem && npm install --prefix examples/pel",
-    "install:examples": "npm install --prefix examples/pem && npm install --prefix examples/pel",
+    "install:all": "npm install && npm install --prefix examples/pem && npm install --prefix examples/pel && npm install --prefix examples/fe",
+    "install:examples": "npm install --prefix examples/pem && npm install --prefix examples/pel && npm install --prefix examples/fe",
     "build:common": "cd packages/common && npm run build",
     "build:pem": "cd packages/pem && npm run build",
     "build:pel": "cd packages/pel && npm run build",
-    "build": "npm run build:common && npm run build:pem && npm run build:pel",
+    "build:fe": "cd packages/fe && npm run build",
+    "build": "npm run build:common && npm run build:pem && npm run build:pel && npm run build:fe",
     "clean": "rm -rf packages/*/dist",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,json,md}\" \"examples/**/*.{ts,tsx,js,json,md}\" \"*.{md,json}\"",
     "format:check": "prettier --check \"packages/**/*.{ts,tsx,js,json,md}\" \"examples/**/*.{ts,tsx,js,json,md}\" \"*.{md,json}\"",
@@ -22,8 +23,10 @@
     "test:coverage": "npm run test:coverage --workspaces --if-present",
     "start:pem": "npm run build && cd examples/pem && npm start",
     "start:pel": "npm run build && cd examples/pel && npm start",
+    "start:fe": "npm run build && cd examples/fe && npm start",
     "dev:pem": "npm run build && cd examples/pem && npm run dev",
-    "dev:pel": "npm run build && cd examples/pel && npm run dev"
+    "dev:pel": "npm run build && cd examples/pel && npm run dev",
+    "dev:fe": "npm run build && cd examples/fe && npm run dev"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

@@ -1,0 +1,20 @@
+{
+  "name": "fe-example",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Example usage of @nopos-ade/fe",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@nopos-ade/common": "file:../../packages/common",
+    "@nopos-ade/fe": "file:../../packages/fe",
+    "ssh2": "^1.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.1",
+    "tsx": "^4.20.6"
+  }
+}
